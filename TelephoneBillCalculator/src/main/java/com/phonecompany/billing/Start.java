@@ -10,7 +10,10 @@ public class Start implements TelephoneBillCalculator {
 
     public static void main(String[] args) {
         String phoneLog = "420774577453,13-01-2020 18:10:15,13-01-2020 18:12:57\n" +
-                "420776562353,18-01-2020 08:59:20,18-01-2020 09:10:00\n" +
+                "320776562352,18-01-2020 08:59:20,18-01-2020 09:10:00\n" +
+                "320776562352,18-01-2020 08:59:20,18-01-2020 09:10:00\n"+
+                "320776562352,18-01-2020 08:59:20,18-01-2020 09:10:00\n" +
+                "320776562352,18-01-2020 08:59:20,18-01-2020 09:10:00\n" + "420776562353,18-01-2020 08:59:20,18-01-2020 09:10:00\n" +
                 "420776562353,18-01-2020 08:59:20,18-01-2020 19:11:00\n";
         ;
         Start s = new Start();
@@ -65,10 +68,11 @@ public class Start implements TelephoneBillCalculator {
                 if (callRecords.containsKey(phone)) {
                     double existingTime = callRecords.get(phone);
                     callRecords.put(phone, existingTime + minutes);
-                    mostFreqNumber++;
+                    mostFreqNumber = phoneNumbers.get(phone) + 1;
                     phoneNumbers.put(phone, mostFreqNumber);
                 } else {
                     callRecords.put(phone, minutes);
+                    phoneNumbers.put(phone, mostFreqNumber);
                 }
 
             } catch (ParseException e) {
@@ -79,6 +83,7 @@ public class Start implements TelephoneBillCalculator {
         for (String phone : callRecords.keySet()) {
             callRecord = callRecords.get(phone);
             totalAmount = totalAmount + callRecord;
+            System.out.println("Key" + phone + "Value" + callRecords.get(phone));
         }
 
         for (String phone : phoneNumbers.keySet()) {
@@ -86,6 +91,7 @@ public class Start implements TelephoneBillCalculator {
             if (luckyNumber >= 2) {
                totalDiscount = callRecords.get(phone);
             }
+            System.out.println("Key" + phone + "Value" + phoneNumbers.get(phone));
         }
 
         return BigDecimal.valueOf(totalAmount - totalDiscount);
